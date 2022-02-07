@@ -7,6 +7,6 @@ auth.set_access_token(os.getenv('access_token'), os.getenv('access_secret'))
 api = tweepy.API(auth)
 
 media = api.media_upload("CuteCat.gif")
-tweet=""
+tweet = ""
 if api.update_status(status=tweet, media_ids=[media.media_id]) is not None:
     print("Successfully Tweeted")
