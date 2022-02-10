@@ -3,7 +3,6 @@ from PIL import Image
 from dotenv import load_dotenv
 from datetime import datetime
 from flask import Flask
-
 load_dotenv()
 app = Flask(__name__)
 
@@ -15,8 +14,8 @@ def index():
     urllib.request.urlretrieve("https://cataas.com/cat/gif", "CuteCat.gif")
     media = api.media_upload("CuteCat.gif")
     if api.update_status(status="", media_ids=[media.media_id]) is not None:
-        return "Tweet was successful " + datetime.now().strftime("%H:%M:%S")
+        return "The, Tweet was successful " + datetime.now().strftime("%H:%M:%S")
     else:
-        return "Tweet was unsuccessful"
+        return "Tweet was not successful"
 
 app.run(host='0.0.0.0', port=81)
