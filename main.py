@@ -1,12 +1,10 @@
 import tweepy, os, urllib.request
 from PIL import Image
-from dotenv import load_dotenv
 from datetime import datetime
-load_dotenv()
 
 def cronjob():
-    auth = tweepy.OAuthHandler(os.getenv('consumer_key'), os.getenv('consumer_secret'))
-    auth.set_access_token(os.getenv('access_token'), os.getenv('access_secret'))
+    auth = tweepy.OAuthHandler(os.environ.get('consumer_key'), os.environ.get('consumer_secret'))
+    auth.set_access_token(os.environ.get('access_token'), os.environ.get('access_secret'))
     api = tweepy.API(auth)
 
     urllib.request.urlretrieve("https://cataas.com/cat/gif", "CuteCat.gif")
