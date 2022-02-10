@@ -1,14 +1,22 @@
 import tweepy, os, urllib.request
 from PIL import Image
+from dotenv import load_dotenv
 from datetime import datetime
+from flask import Flask
 
-auth = tweepy.OAuthHandler(os.environ.get('consumer_key'), os.environ.get('consumer_secret'))
-auth.set_access_token(os.environ.get('access_token'), os.environ.get('access_secret'))
-api = tweepy.API(auth)
+load_dotenv()
+app = Flask(__name__)
 
-urllib.request.urlretrieve("https://cataas.com/cat/gif", "CuteCat.gif")
-media = api.media_upload("CuteCat.gif")
-if api.update_status(status="", media_ids=[media.media_id]) is not None:
-    print("Tweet was successful " + datetime.now().strftime("%H:%M:%S"))
-else:
-    print("Tweet was unsuccessful")
+@app.route('/')
+def index():
+    auth = tweepy.OAuthHandler(os.getenv('consumer_key'), os.getenv('consumer_secret'))
+    auth.set_access_token(os.getenv('access_token'), os.getenv('access_secret'))
+    api = tweepy.API(auth)
+    urllib.request.urlretrieve("https://cataas.com/cat/gif", "CuteCat.gif")
+    media = api.media_upload("CuteCat.gif")
+    if api.update_status(status="", media_ids=[media.media_id]) is not None:
+        return "Tweet was successful " + datetime.now().strftime("%H:%M:%S")
+    else:
+        return "Tweet was unsuccessful"
+
+app.run(host='0.0.0.0', port=81)
